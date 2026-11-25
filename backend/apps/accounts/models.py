@@ -24,7 +24,6 @@ class User(AbstractUser):
     cohort = models.CharField("届别", max_length=32, blank=True, default="", db_index=True)
     gender = models.CharField("性别", max_length=10, blank=True, default="")
     phone = models.CharField("手机号", max_length=20, blank=True, default="")
-    avatar = models.CharField("头像地址", max_length=255, blank=True, default="")
 
     class Meta:
         db_table = "sys_user"

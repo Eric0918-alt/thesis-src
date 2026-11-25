@@ -31,19 +31,6 @@
       <el-table-column prop="cohort" label="届别" sortable="custom" min-width="110" />
       <el-table-column prop="gender" label="性别" sortable="custom" width="90" />
       <el-table-column prop="phone" label="手机" sortable="custom" min-width="140" />
-      <el-table-column label="头像" width="120" align="center">
-        <template #default="{ row }">
-          <el-image
-            v-if="row.avatar"
-            :src="row.avatar"
-            :preview-src-list="[row.avatar]"
-            preview-teleported
-            fit="cover"
-            class="table-avatar"
-          />
-          <span v-else style="color: #909399; font-size: 12px">暂无</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" width="150" align="center" fixed="right">
         <template #default="{ row }">
           <div class="op-links">
@@ -101,9 +88,6 @@
             :placeholder="dialogMode === 'create' ? '留空默认 123456' : '留空则不修改密码'"
           />
         </el-form-item>
-        <el-form-item label="头像">
-          <AvatarUploader v-model="formData.avatar" :disabled="dialogMode === 'view'" />
-        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">{{ dialogMode === 'view' ? '关闭' : '取消' }}</el-button>
@@ -127,7 +111,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
-import AvatarUploader from '@/components/AvatarUploader.vue'
 import ExcelImportDialog from '@/components/ExcelImportDialog.vue'
 import PaginationBar from '@/components/PaginationBar.vue'
 import { cohortApi, studentApi, type CohortRecord, type StudentRecord } from '@/api/services'
@@ -159,8 +142,7 @@ const formData = reactive({
   cohort: '',
   gender: '',
   phone: '',
-  password: '',
-  avatar: ''
+  password: ''
 })
 
 const formRules: FormRules = {
@@ -236,7 +218,6 @@ function openForm(mode: 'view' | 'create' | 'edit', row?: StudentRecord) {
   formData.cohort = row?.cohort ?? ''
   formData.gender = row?.gender ?? ''
   formData.phone = row?.phone ?? ''
-  formData.avatar = row?.avatar ?? ''
   formData.password = ''
   dialogVisible.value = true
 }
@@ -253,8 +234,7 @@ async function handleSave() {
       student_name: formData.student_name.trim(),
       cohort: formData.cohort,
       gender: formData.gender,
-      phone: formData.phone.trim(),
-      avatar: formData.avatar
+      phone: formData.phone.trim()
     }
     if (formData.password.trim()) {
       payload.password = formData.password.trim()
@@ -324,13 +304,3 @@ async function handleExportAll() {
   }
 }
 </script>
-
-<style scoped>
-.table-avatar {
-  width: 68px;
-  height: 68px;
-  border-radius: 4px;
-  display: block;
-  margin: 0 auto;
-}
-</style>

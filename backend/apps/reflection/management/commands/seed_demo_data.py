@@ -1,28 +1,10 @@
 from __future__ import annotations
 
-import os
-
-from django.conf import settings
 from django.core.management.base import BaseCommand
-from PIL import Image, ImageDraw
 
 from apps.accounts.models import User
 from apps.audit.models import SystemLog
 from apps.reflection.models import CodingResult, Cohort
-
-
-def _ensure_avatar(filename: str, bg_color: tuple, accent_color: tuple) -> str:
-    avatar_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
-    os.makedirs(avatar_dir, exist_ok=True)
-    filepath = os.path.join(avatar_dir, filename)
-    if not os.path.exists(filepath):
-        img = Image.new("RGB", (160, 160), bg_color)
-        draw = ImageDraw.Draw(img)
-        # Draw a clean stylized portrait silhouette
-        draw.ellipse((52, 28, 108, 84), fill=accent_color)
-        draw.pieslice((24, 88, 136, 192), start=180, end=360, fill=accent_color)
-        img.save(filepath, "PNG")
-    return f"{settings.MEDIA_URL}avatars/{filename}"
 
 
 class Command(BaseCommand):
@@ -33,7 +15,6 @@ class Command(BaseCommand):
         for name in cohorts:
             Cohort.objects.get_or_create(name=name)
 
-        admin_avatar = _ensure_avatar("seed_admin.png", (219, 234, 254), (37, 99, 235))
         if not User.objects.filter(username="admin").exists():
             User.objects.create_superuser(
                 username="admin",
@@ -43,19 +24,17 @@ class Command(BaseCommand):
                 real_name="系统管理员",
                 gender="男",
                 phone="13800000000",
-                avatar=admin_avatar,
             )
 
         teachers = [
-            ("111", "李四", "男", "13500000002", (219, 234, 254), (29, 78, 216)),
-            ("105", "王静", "男", "13556789012", (224, 242, 254), (2, 132, 199)),
-            ("106", "张伟", "男", "13467890123", (226, 232, 240), (71, 85, 105)),
-            ("102", "刘洋", "男", "13578901234", (220, 252, 231), (22, 163, 74)),
-            ("107", "张雨", "女", "13589012345", (252, 231, 243), (219, 39, 119)),
-            ("108", "李娜", "女", "13490123456", (237, 233, 254), (124, 58, 237)),
+            ("111", "李四", "男", "13500000002"),
+            ("105", "王静", "男", "13556789012"),
+            ("106", "张伟", "男", "13467890123"),
+            ("102", "刘洋", "男", "13578901234"),
+            ("107", "张雨", "女", "13589012345"),
+            ("108", "李娜", "女", "13490123456"),
         ]
-        for t_no, t_name, gender, phone, bg, fg in teachers:
-            avatar_url = _ensure_avatar(f"seed_teacher_{t_no}.png", bg, fg)
+        for t_no, t_name, gender, phone in teachers:
             if not User.objects.filter(username=t_no).exists():
                 User.objects.create_user(
                     username=t_no,
@@ -64,22 +43,20 @@ class Command(BaseCommand):
                     real_name=t_name,
                     gender=gender,
                     phone=phone,
-                    avatar=avatar_url,
                 )
 
         students = [
-            ("010", "张三", "2023届", "男", "13500000001", (219, 234, 254), (30, 64, 175)),
-            ("002", "张明", "2017届", "男", "15098751352", (254, 226, 226), (185, 28, 28)),
-            ("008", "孙雨晴", "2021届", "男", "13023456789", (252, 231, 243), (190, 24, 93)),
-            ("007", "李思远", "2028届", "男", "13189065234", (224, 242, 254), (3, 105, 161)),
-            ("004", "刘芳", "2016届", "女", "13277541235", (226, 232, 240), (51, 65, 85)),
-            ("003", "吴磊", "2019届", "女", "13678962345", (220, 252, 231), (21, 128, 61)),
-            ("001", "陈晨", "2020届", "女", "13712345678", (254, 243, 199), (180, 83, 9)),
-            ("006", "林雪", "2022届", "女", "13823456789", (237, 233, 254), (109, 40, 217)),
-            ("005", "周杰", "2023届", "男", "13934567890", (207, 250, 254), (14, 116, 144)),
+            ("010", "张三", "2023届", "男", "13500000001"),
+            ("002", "张明", "2017届", "男", "15098751352"),
+            ("008", "孙雨晴", "2021届", "男", "13023456789"),
+            ("007", "李思远", "2028届", "男", "13189065234"),
+            ("004", "刘芳", "2016届", "女", "13277541235"),
+            ("003", "吴磊", "2019届", "女", "13678962345"),
+            ("001", "陈晨", "2020届", "女", "13712345678"),
+            ("006", "林雪", "2022届", "女", "13823456789"),
+            ("005", "周杰", "2023届", "男", "13934567890"),
         ]
-        for s_no, s_name, cohort, gender, phone, bg, fg in students:
-            avatar_url = _ensure_avatar(f"seed_student_{s_no}.png", bg, fg)
+        for s_no, s_name, cohort, gender, phone in students:
             if not User.objects.filter(username=s_no).exists():
                 User.objects.create_user(
                     username=s_no,
@@ -89,7 +66,6 @@ class Command(BaseCommand):
                     cohort=cohort,
                     gender=gender,
                     phone=phone,
-                    avatar=avatar_url,
                 )
 
         # 初始化与原型图对应的编码结果演示记录

@@ -11,7 +11,6 @@ export interface UserInfo {
   cohort: string
   gender: string
   phone: string
-  avatar: string
   date_joined?: string
 }
 
@@ -29,7 +28,6 @@ export interface StudentRecord {
   cohort: string
   gender: string
   phone: string
-  avatar: string
   date_joined?: string
 }
 
@@ -39,7 +37,6 @@ export interface TeacherRecord {
   teacher_name: string
   gender: string
   phone: string
-  avatar: string
   date_joined?: string
 }
 
@@ -96,14 +93,7 @@ export const authApi = {
     old_password: string
     new_password: string
     confirm_password: string
-  }) => http.post('/auth/change-password/', payload),
-  uploadAvatar: (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    return http.post<{ url: string }>('/upload/avatar/', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    })
-  }
+  }) => http.post('/auth/change-password/', payload)
 }
 
 export const studentApi = {

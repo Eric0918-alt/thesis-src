@@ -2,7 +2,6 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from apps.accounts.views import (
-    AvatarUploadAPIView,
     ChangePasswordAPIView,
     LoginAPIView,
     ProfileAPIView,
@@ -22,6 +21,5 @@ urlpatterns = [
     path("auth/register/teacher/", TeacherRegisterAPIView.as_view(), name="auth-register-teacher"),
     path("auth/profile/", ProfileAPIView.as_view(), name="auth-profile"),
     path("auth/change-password/", ChangePasswordAPIView.as_view(), name="auth-change-password"),
-    path("upload/avatar/", AvatarUploadAPIView.as_view(), name="upload-avatar"),
     path("", include(router.urls)),
 ]

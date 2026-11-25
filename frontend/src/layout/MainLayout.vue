@@ -11,9 +11,7 @@
       <div class="header-right">
         <el-dropdown trigger="click" @command="handleUserCommand">
           <div class="user-trigger">
-            <el-avatar :size="30" :src="auth.user?.avatar || undefined" class="header-avatar">
-              {{ avatarFallback }}
-            </el-avatar>
+            <el-icon :size="18" color="#1677ff"><UserFilled /></el-icon>
             <span class="welcome-name">欢迎{{ auth.user?.username }}</span>
             <el-icon :size="12"><CaretBottom /></el-icon>
           </div>
@@ -111,11 +109,6 @@ onMounted(() => {
   auth.refreshProfile().catch(() => {})
 })
 
-const avatarFallback = computed(() => {
-  const name = auth.user?.real_name || auth.user?.username || 'U'
-  return name.slice(0, 1).toUpperCase()
-})
-
 const menuItems = computed(() => {
   const role = auth.role
   if (role === 'student') {
@@ -201,12 +194,6 @@ function handleUserCommand(cmd: string) {
   cursor: pointer;
   color: #606266;
   font-size: 13px;
-}
-
-.header-avatar {
-  background: #1677ff;
-  color: #ffffff;
-  font-weight: 600;
 }
 
 .welcome-name {

@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 import io
-import os
-import uuid
 from urllib.parse import quote
 
 import pandas as pd
-from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse
-from PIL import Image
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -31,9 +27,6 @@ from apps.accounts.serializers import (
 )
 from apps.audit.models import SystemLog
 from apps.audit.utils import record_log
-
-ALLOWED_AVATAR_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
-MAX_AVATAR_BYTES = 5 * 1024 * 1024
 
 
 def _read_tabular_file(uploaded_file) -> pd.DataFrame:
@@ -171,39 +164,6 @@ class ChangePasswordAPIView(APIView):
             detail=f"用户 {request.user.username} 修改了登录密码",
         )
         return Response({"detail": "密码修改成功"})
-
-
-class AvatarUploadAPIView(APIView):
-    permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
-
-    def post(self, request):
-        file_obj = request.FILES.get("file")
-        if not file_obj:
-            return Response({"detail": "请上传图片文件"}, status=status.HTTP_400_BAD_REQUEST)
-        if file_obj.size > MAX_AVATAR_BYTES:
-            return Response({"detail": "头像文件大小不能超过 5MB"}, status=status.HTTP_400_BAD_REQUEST)
-
-        ext = os.path.splitext(file_obj.name)[1].lower()
-        if ext not in ALLOWED_AVATAR_EXTS:
-            return Response({"detail": "仅支持 jpg/jpeg/png/gif/webp 格式图片"}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            image = Image.open(file_obj)
-            image.verify()
-            file_obj.seek(0)
-        except Exception:
-            return Response({"detail": "无效的图片文件"}, status=status.HTTP_400_BAD_REQUEST)
-
-        avatar_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
-        os.makedirs(avatar_dir, exist_ok=True)
-        filename = f"{uuid.uuid4().hex}{ext}"
-        dest_path = os.path.join(avatar_dir, filename)
-        with open(dest_path, "wb+") as destination:
-            for chunk in file_obj.chunks():
-                destination.write(chunk)
-
-        return Response({"url": f"{settings.MEDIA_URL}avatars/{filename}"})
 
 
 class StudentViewSet(viewsets.ModelViewSet):

@@ -33,11 +33,6 @@
             <el-input v-model="form.phone" placeholder="请输入手机号码" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="头像">
-            <AvatarUploader v-model="form.avatar" />
-          </el-form-item>
-        </el-col>
       </el-row>
 
       <!-- 教师个人信息 -->
@@ -63,11 +58,6 @@
         <el-col :span="12">
           <el-form-item label="手机号码">
             <el-input v-model="form.phone" placeholder="请输入手机号码" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="头像">
-            <AvatarUploader v-model="form.avatar" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -97,11 +87,6 @@
             <el-input v-model="form.phone" placeholder="请输入手机号码" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="头像">
-            <AvatarUploader v-model="form.avatar" />
-          </el-form-item>
-        </el-col>
       </el-row>
 
       <div class="submit-row">
@@ -116,7 +101,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import AvatarUploader from '@/components/AvatarUploader.vue'
 import { authApi, cohortApi, type CohortRecord } from '@/api/services'
 import { extractErrorMessage } from '@/api/http'
 import { useAuthStore } from '@/stores/auth'
@@ -131,8 +115,7 @@ const form = reactive({
   real_name: '',
   cohort: '',
   gender: '',
-  phone: '',
-  avatar: ''
+  phone: ''
 })
 
 function syncFromProfile() {
@@ -142,7 +125,6 @@ function syncFromProfile() {
   form.cohort = auth.user.cohort || ''
   form.gender = auth.user.gender || ''
   form.phone = auth.user.phone || ''
-  form.avatar = auth.user.avatar || ''
 }
 
 onMounted(async () => {
@@ -169,8 +151,7 @@ async function handleSubmit() {
     const payload: Record<string, string> = {
       real_name: form.real_name.trim(),
       gender: form.gender,
-      phone: form.phone.trim(),
-      avatar: form.avatar
+      phone: form.phone.trim()
     }
     if (role.value === 'student') {
       payload.cohort = form.cohort

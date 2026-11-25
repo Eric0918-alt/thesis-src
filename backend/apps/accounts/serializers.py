@@ -20,7 +20,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "cohort",
             "gender",
             "phone",
-            "avatar",
             "date_joined",
         ]
         read_only_fields = ["id", "username", "role", "role_label", "date_joined"]
@@ -56,7 +55,6 @@ class StudentRegisterSerializer(serializers.Serializer):
     cohort = serializers.CharField(max_length=32, required=True)
     gender = serializers.ChoiceField(choices=["男", "女"], required=True)
     phone = serializers.CharField(max_length=20, required=True)
-    avatar = serializers.CharField(max_length=255, required=False, allow_blank=True, default="")
 
     def validate_student_no(self, value: str) -> str:
         val = value.strip()
@@ -80,7 +78,6 @@ class StudentRegisterSerializer(serializers.Serializer):
             cohort=validated_data["cohort"].strip(),
             gender=validated_data["gender"],
             phone=validated_data["phone"].strip(),
-            avatar=validated_data.get("avatar", "").strip(),
         )
 
 
@@ -91,7 +88,6 @@ class TeacherRegisterSerializer(serializers.Serializer):
     confirm_password = serializers.CharField(min_length=6, write_only=True, required=True)
     gender = serializers.ChoiceField(choices=["", "男", "女"], required=False, allow_blank=True, default="")
     phone = serializers.CharField(max_length=20, required=False, allow_blank=True, default="")
-    avatar = serializers.CharField(max_length=255, required=False, allow_blank=True, default="")
 
     def validate_teacher_no(self, value: str) -> str:
         val = value.strip()
@@ -114,7 +110,6 @@ class TeacherRegisterSerializer(serializers.Serializer):
             real_name=validated_data["name"].strip(),
             gender=validated_data.get("gender", ""),
             phone=validated_data.get("phone", "").strip(),
-            avatar=validated_data.get("avatar", "").strip(),
         )
 
 
@@ -148,7 +143,6 @@ class StudentManageSerializer(serializers.ModelSerializer):
             "cohort",
             "gender",
             "phone",
-            "avatar",
             "password",
             "date_joined",
         ]
@@ -173,7 +167,6 @@ class StudentManageSerializer(serializers.ModelSerializer):
             cohort=validated_data.get("cohort", ""),
             gender=validated_data.get("gender", ""),
             phone=validated_data.get("phone", ""),
-            avatar=validated_data.get("avatar", ""),
         )
 
     def update(self, instance, validated_data):
@@ -199,7 +192,6 @@ class TeacherManageSerializer(serializers.ModelSerializer):
             "teacher_name",
             "gender",
             "phone",
-            "avatar",
             "password",
             "date_joined",
         ]
@@ -223,7 +215,6 @@ class TeacherManageSerializer(serializers.ModelSerializer):
             real_name=validated_data.get("real_name", ""),
             gender=validated_data.get("gender", ""),
             phone=validated_data.get("phone", ""),
-            avatar=validated_data.get("avatar", ""),
         )
 
     def update(self, instance, validated_data):

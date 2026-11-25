@@ -43,13 +43,6 @@
           <span class="register-field-label">手机:<span class="req-star">*</span></span>
           <el-input v-model="form.phone" placeholder="手机" clearable />
         </div>
-
-        <div class="register-field-box register-avatar-box">
-          <span class="register-field-label">头像:</span>
-          <div class="avatar-inner">
-            <AvatarUploader v-model="form.avatar" />
-          </div>
-        </div>
       </div>
 
       <el-button
@@ -72,7 +65,6 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import AvatarUploader from '@/components/AvatarUploader.vue'
 import { authApi, cohortApi, type CohortRecord } from '@/api/services'
 import { extractErrorMessage } from '@/api/http'
 
@@ -87,8 +79,7 @@ const form = reactive({
   name: '',
   cohort: '',
   gender: '',
-  phone: '',
-  avatar: ''
+  phone: ''
 })
 
 onMounted(async () => {
@@ -118,8 +109,7 @@ async function handleSubmit() {
       name: form.name.trim(),
       cohort: form.cohort,
       gender: form.gender,
-      phone: form.phone.trim(),
-      avatar: form.avatar
+      phone: form.phone.trim()
     })
     ElMessage.success('学生注册成功，请登录')
     router.push('/login')
@@ -153,16 +143,6 @@ async function handleSubmit() {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.register-avatar-box {
-  align-items: flex-start;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.avatar-inner {
-  padding-left: 6px;
 }
 
 .register-submit-btn {
