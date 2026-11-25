@@ -1,0 +1,177 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  color: #303133;
+  background-color: #f0f2f5;
+}
+
+/* 认证页面蓝渐变全屏背景 */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #32b6ff 0%, #1077f0 52%, #003cb8 100%);
+}
+
+/* 通用中后台卡片容器 */
+.page-card {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* 顶部搜索栏 */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-label {
+  font-size: 13px;
+  color: #606266;
+  white-space: nowrap;
+}
+
+/* 工具栏按钮组 */
+.toolbar-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+/* 复刻原型按钮配色 */
+.btn-green {
+  --el-button-bg-color: #2e8b2e !important;
+  --el-button-border-color: #2e8b2e !important;
+  --el-button-hover-bg-color: #247324 !important;
+  --el-button-hover-border-color: #247324 !important;
+  --el-button-active-bg-color: #1d5e1d !important;
+  --el-button-active-border-color: #1d5e1d !important;
+  --el-button-text-color: #ffffff !important;
+  --el-button-hover-text-color: #ffffff !important;
+}
+
+.btn-blue {
+  --el-button-bg-color: #1677ff !important;
+  --el-button-border-color: #1677ff !important;
+  --el-button-hover-bg-color: #0958d9 !important;
+  --el-button-hover-border-color: #0958d9 !important;
+  --el-button-active-bg-color: #003eb3 !important;
+  --el-button-active-border-color: #003eb3 !important;
+  --el-button-text-color: #ffffff !important;
+  --el-button-hover-text-color: #ffffff !important;
+}
+
+.btn-red {
+  --el-button-bg-color: #d9363e !important;
+  --el-button-border-color: #d9363e !important;
+  --el-button-hover-bg-color: #b8282f !important;
+  --el-button-hover-border-color: #b8282f !important;
+  --el-button-active-bg-color: #981e24 !important;
+  --el-button-active-border-color: #981e24 !important;
+  --el-button-text-color: #ffffff !important;
+  --el-button-hover-text-color: #ffffff !important;
+}
+
+/* 表格表头与悬停蓝字高亮效果（复刻原型图） */
+.proto-table .el-table__header th.el-table__cell {
+  background-color: #f5f7fa !important;
+  color: #303133;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.proto-table .el-table__body tr:hover > td.el-table__cell {
+  background-color: #f7faff !important;
+  color: #1677ff;
+}
+
+/* 行内操作文字链接配色 */
+.op-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.op-link {
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.op-link:hover {
+  opacity: 0.8;
+}
+
+.op-view {
+  color: #1677ff;
+}
+
+.op-edit {
+  color: #8b5cf6;
+}
+
+.op-delete {
+  color: #e53935;
+}
+
+/* 注册页外框行样式（复刻截图 2 & 3） */
+.register-field-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e4e7ed;
+  border-radius: 6px;
+  padding: 2px 12px;
+  min-height: 44px;
+  background: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.register-field-box:focus-within {
+  border-color: #1677ff;
+}
+
+.register-field-label {
+  width: 96px;
+  text-align: right;
+  font-size: 13px;
+  color: #606266;
+  flex-shrink: 0;
+  padding-right: 6px;
+}
+
+.register-field-label .req-star {
+  color: #f56c6c;
+  margin-left: 2px;
+}
+
+.register-field-box .el-input__wrapper,
+.register-field-box .el-select__wrapper {
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-left: 4px !important;
+}
