@@ -17,6 +17,9 @@ frontend/dist/
 frontend/.vite/
 frontend/*.local
 
+# Runtime PIDs & logs
+.run/
+
 # OS & IDEs
 .DS_Store
 .idea/
